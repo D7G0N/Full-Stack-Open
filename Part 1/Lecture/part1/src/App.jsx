@@ -1,28 +1,57 @@
-const App = () => {
-  const now = new Date()
-  const a = "Peter"
-  const b = 20
-  console.log(now, a+b)
+import { useState } from 'react'
 
-  return (
-    <>
-      <p>Hello world, it is {now.toString()}</p>
-      <p>
-        {a} plus {b} is {a+b}
-      </p>
-      <Hello name="George" age="32"/>
-      <Hello name="Daisy"/>
-      <Hello name={a} age={b}/>
-    </>
+const Display = ({ counter }) => <div>{counter}</div>
+  //this is a really silly use of components
+
+
+const Button = ({ onClick, text }) => (
+    <button onClick={onClick}>
+      {text}
+    </button>
   )
-}
 
-const Hello = (props) => {
+
+const App = () => {
+  const [ counter, setCounter ] = useState(0)
+  //state stays in the closest common parent component
+
+  /**setTimeout(
+    () => setCounter(counter + 1),
+    1000
+  ) */
+
+  /** "In React, it’s conventional to use onSomething names 
+   * for props which take functions which handle events and 
+   * handleSomething for the actual function definitions 
+   * which handle those events."
+   * **/
+
+  const increment = () => setCounter(counter + 1)
+  const decrement = () => setCounter(counter - 1)
+  const reset = () => setCounter(0)
+
   return (
     <div>
-      <p>Hello {props.name}, you are {props.age} years old.</p>
+      <Display counter = {counter} />
+      <Button
+        onClick={increment}
+        text='plus'
+      />
+      <Button
+        onClick={decrement}
+        text='minus'
+      />
+      <Button
+        onClick={reset}
+        text='zero'
+      />
     </div>
   )
+  // if () => isn't used, setCounter will execute right away 
+  // instead of waiting for a click
+  // setting onClick to a var containing a referance to a 
+  // function is best practice
 }
+
 
 export default App
